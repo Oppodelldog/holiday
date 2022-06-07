@@ -65,6 +65,20 @@ func TestQuery_AddFileToIndex(t *testing.T) {
 	}
 }
 
+func TestQuery_Find(t *testing.T) {
+	var query = New()
+	var date = time.Date(2023, 1, 1, 0, 0, 0, 0, time.Local)
+
+	if res, ok := query.Find(date, Any); ok {
+		want := "Neujahr"
+		if res.Name != want {
+			t.Fatalf("did expect to find '%v', but found '%v'", want, res.Name)
+		}
+	} else {
+		t.Fatalf("did expect to find a holiday at %v", date.String())
+	}
+}
+
 func parseDate(t *testing.T, input string) time.Time {
 	date, err := time.Parse("2006-01-02", input)
 	if err != nil {
